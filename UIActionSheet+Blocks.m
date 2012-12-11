@@ -15,28 +15,33 @@ static CFStringRef RI_BUTTON_ASS_KEY = (CFStringRef)@"com.random-ideas.BUTTONS";
 
 -(id)initWithTitle:(NSString *)inTitle cancelButtonItem:(RIButtonItem *)inCancelButtonItem destructiveButtonItem:(RIButtonItem *)inDestructiveItem otherButtonItems:(RIButtonItem *)inOtherButtonItems, ...
 {
+    va_list otherButtonItems;
+    va_start(otherButtonItems, inOtherButtonItems);
+    va_end(otherButtonItems);
+    return [self initWithTitle:inTitle cancelButtonItem:inOtherButtonItems destructiveButtonItem:inDestructiveItem otherFirstButtonItem:inOtherButtonItems otherButtonList:otherButtonItems];
+}
+
+-(id)initWithTitle:(NSString *)inTitle cancelButtonItem:(RIButtonItem *)inCancelButtonItem destructiveButtonItem:(RIButtonItem *)inDestructiveItem otherFirstButtonItem:(RIButtonItem *)inOtherFirstButtonItem otherButtonList:(va_list)inOtherButtonList;
+{
     if((self = [self initWithTitle:inTitle delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]))
     {
         NSMutableArray *buttonsArray = [NSMutableArray array];
-        
+        if (inOtherFirstButtonItem) [buttonsArray addObject:inOtherFirstButtonItem];
         RIButtonItem *eachItem;
-        va_list argumentList;
-        if (inOtherButtonItems)
+
+        if (inOtherButtonList)
         {
-            [buttonsArray addObject: inOtherButtonItems];
-            va_start(argumentList, inOtherButtonItems);
-            while((eachItem = va_arg(argumentList, RIButtonItem *)))
+            while((eachItem = va_arg(inOtherButtonList, RIButtonItem *)))
             {
                 [buttonsArray addObject: eachItem];
             }
-            va_end(argumentList);
         }
-        
+
         for(RIButtonItem *item in buttonsArray)
         {
             [self addButtonWithTitle:item.label];
         }
-        
+
         if(inDestructiveItem)
         {
             [buttonsArray addObject:inDestructiveItem];
@@ -49,7 +54,7 @@ static CFStringRef RI_BUTTON_ASS_KEY = (CFStringRef)@"com.random-ideas.BUTTONS";
             NSInteger cancelIndex = [self addButtonWithTitle:inCancelButtonItem.label];
             [self setCancelButtonIndex:cancelIndex];
         }
-        
+
         objc_setAssociatedObject(self, RI_BUTTON_ASS_KEY, buttonsArray, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     }
