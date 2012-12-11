@@ -13,8 +13,6 @@
 
 -(id)initWithTitle:(NSString *)inTitle cancelButtonItem:(RIButtonItem *)inCancelButtonItem destructiveButtonItem:(RIButtonItem *)inDestructiveItem otherButtonItems:(RIButtonItem *)inOtherButtonItems, ... NS_REQUIRES_NIL_TERMINATION;
 
--(id)initWithTitle:(NSString *)inTitle cancelButtonItem:(RIButtonItem *)inCancelButtonItem destructiveButtonItem:(RIButtonItem *)inDestructiveItem otherFirstButtonItem:(RIButtonItem *)inOtherFirstButtonItem otherButtonList:(va_list)inOtherButtonList;
-
 - (NSInteger)addButtonItem:(RIButtonItem *)item;
 
 @end
