@@ -45,26 +45,22 @@ static NSString *RI_BUTTON_ASS_KEY = @"com.random-ideas.BUTTONS";
     return self;
 }
 
-- (id)initWithTitle:(NSString *)title 
-			message:(NSString *)message 
-  cancelButtonTitle:(NSString *)cancelButtonTitle 
-	  okButtonTitle:(NSString *)okButtonTitle 
-	   cancelAction:(void (^)(void))cancelAction 
+- (id)initWithTitle:(NSString *)title
+			message:(NSString *)message
+  cancelButtonTitle:(NSString *)cancelButtonTitle
+	  okButtonTitle:(NSString *)okButtonTitle
+	   cancelAction:(void (^)(void))cancelAction
 		   okAction:(void (^)(void))okAction
 {
     if((self = [self initWithTitle:(title ?: @"") message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:okButtonTitle, nil]))
 	{
-		NSMutableArray *buttons = [NSMutableArray array];
+		NSMutableArray *buttons = [self buttonItems];
         
-		RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:cancelButtonTitle];
-        cancelItem.action = cancelAction;
-        RIButtonItem *okItem = [RIButtonItem itemWithLabel:okButtonTitle];
-        okItem.action = okAction;
+		RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:cancelButtonTitle action:cancelAction];
+        RIButtonItem *okItem = [RIButtonItem itemWithLabel:okButtonTitle action:okAction];
       
 		[buttons addObject:cancelItem];
 		[buttons addObject:okItem];
-        
-        objc_setAssociatedObject(self, RI_BUTTON_ASS_KEY, buttons, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         
         [self setDelegate:self];
 	}
@@ -72,21 +68,16 @@ static NSString *RI_BUTTON_ASS_KEY = @"com.random-ideas.BUTTONS";
 	return self;
 }
 
-- (id)initWithTitle:(NSString *)title 
-			message:(NSString *)message 
-  cancelButtonTitle:(NSString *)cancelButtonTitle 
-	   cancelAction:(void (^)(void))cancelAction 
+- (id)initWithTitle:(NSString *)title
+			message:(NSString *)message
+  cancelButtonTitle:(NSString *)cancelButtonTitle
+	   cancelAction:(void (^)(void))cancelAction
 {
 	if((self = [self initWithTitle:(title ?: @"") message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil]))
 	{
-		NSMutableArray *buttons = [NSMutableArray array];
-        
-		RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:cancelButtonTitle ];
-        cancelItem.action = cancelAction;
-		
+		NSMutableArray *buttons = [self buttonItems];
+		RIButtonItem *cancelItem = [RIButtonItem itemWithLabel:cancelButtonTitle action:cancelAction];
 		[buttons addObject:cancelItem];
-        
-        objc_setAssociatedObject(self, RI_BUTTON_ASS_KEY, buttons, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         
         [self setDelegate:self];
 	}
