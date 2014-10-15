@@ -15,7 +15,7 @@ static NSString *RI_BUTTON_ASS_KEY = @"com.random-ideas.BUTTONS";
 
 - (id)initWithTitle:(NSString *)inTitle message:(NSString *)inMessage cancelButtonItem:(RIButtonItem *)inCancelButtonItem otherButtonItems:(RIButtonItem *)inOtherButtonItems, ...
 {
-    if((self = [self initWithTitle:inTitle message:inMessage delegate:self cancelButtonTitle:inCancelButtonItem.label otherButtonTitles:nil]))
+    if((self = [self initWithTitle:(inTitle ?: @"") message:inMessage delegate:self cancelButtonTitle:inCancelButtonItem.label otherButtonTitles:nil]))
     {
         NSMutableArray *buttonsArray = [self buttonItems];
         
@@ -52,7 +52,7 @@ static NSString *RI_BUTTON_ASS_KEY = @"com.random-ideas.BUTTONS";
 	   cancelAction:(void (^)(void))cancelAction 
 		   okAction:(void (^)(void))okAction
 {
-	if((self = [self initWithTitle:title message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:okButtonTitle, nil]))
+    if((self = [self initWithTitle:(title ?: @"") message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:okButtonTitle, nil]))
 	{
 		NSMutableArray *buttons = [NSMutableArray array];
         
@@ -77,7 +77,7 @@ static NSString *RI_BUTTON_ASS_KEY = @"com.random-ideas.BUTTONS";
   cancelButtonTitle:(NSString *)cancelButtonTitle 
 	   cancelAction:(void (^)(void))cancelAction 
 {
-	if((self = [self initWithTitle:title message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil]))
+	if((self = [self initWithTitle:(title ?: @"") message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil]))
 	{
 		NSMutableArray *buttons = [NSMutableArray array];
         
